@@ -1,0 +1,104 @@
+/*問題 1
+テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：学生ＮＯ（student_no）、学生名（student_kj）、学生名カナ（student_kn）、学科NO（gakka_no）、削除区分（delete_ku）
+抽出条件：削除区分（delete_ku）が〈0〉のデータ
+かつ、学科NO（gakka_no）が〈1〉のデータ
+*/
+ select 
+  sm.student_no,
+  sm.student_kj,
+  sm.student_kn,
+  sm.gakka_no,
+  sm.delete_ku
+from student_mst sm
+where sm.delete_ku = '0'
+and sm.gakka_no = 1;
+
+/*問題 2
+テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：学生ＮＯ（student_no）、学生名（student_kj）、学生名カナ（student_kn）、学科NO（gakka_no）、削除区分（delete_ku）
+抽出条件：学科NO（gakka_no）が〈1〉のデータ
+もしく、学科NO（gakka_no）が〈10〉のデータ
+かつ、削除区分（delete_ku）が〈1〉のデータ
+*/
+select 
+ sm.student_no,
+ sm.student_kj,
+ sm.student_kn,
+ sm.gakka_no,
+ sm.delete_ku
+from student_mst sm
+where sm.gakka_no = 1
+or sm.gakka_no = 10
+and sm.delete_ku = 1;
+
+/*問題 3
+テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：学生ＮＯ（student_no）、学生名（student_kj）、学生名カナ（student_kn）、学科NO（gakka_no）、削除区分（delete_ku）
+抽出条件：学科NO（gakka_no）が〈1〉のデータ
+もしく、学科NO（gakka_no）が〈10〉のデータ
+かつ、削除区分（delete_ku）が〈0〉のデータ
+*/
+select 
+ sm.student_no,
+ sm.student_kj,
+ sm.student_kn,
+ sm.gakka_no,
+ sm.delete_ku
+from student_mst sm
+where sm.gakka_no = 1
+or sm.gakka_no = 10
+and sm.delete_ku = 0;
+
+/*問題 4
+テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：学生ＮＯ（student_no）、学生名（student_kj）、学生名カナ（student_kn）、学科NO（gakka_no）、削除区分（delete_ku）
+抽出条件：学科NO（gakka_no）が〈1〉のデータ
+もしく、学科NO（gakka_no）が〈10〉のデータ
+その中からさらに、削除区分（delete_ku）が〈0〉のデータ
+*/
+select 
+ sm.student_no,
+ sm.student_kj,
+ sm.student_kn,
+ sm.gakka_no,
+ sm.delete_ku
+from student_mst sm
+where sm.gakka_no = 1
+or sm.gakka_no = 10
+and sm.delete_ku = 0;
+
+/*問題 5
+テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：学生ＮＯ（student_no）、学生名（student_kj）、学生名カナ（student_kn）、学科NO（gakka_no）、削除区分（delete_ku）
+抽出条件：学科NO（gakka_no）が〈1〉，〈2〉，〈3〉，〈5〉，〈10〉のデータ
+かつ、削除区分（delete_ku）が〈0〉のデータ
+*/
+
+select 
+sm.student_no,
+ sm.student_kj,
+ sm.student_kn,
+ sm.gakka_no,
+ sm.delete_ku
+from student_mst sm
+where sm.gakka_no in (1,2,3,5,10)
+and sm.delete_ku = 0;
+
+/*問題　６
+テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：学生ＮＯ（student_no）、学生名（student_kj）、学生名カナ（student_kn）、学科NO（gakka_no）、削除区分（delete_ku）
+抽出条件：学科NO（gakka_no）が〈4〉以上のデータ
+かつ、学科NO（gakka_no）が〈7〉以外のデータ
+かつ、削除区分（delete_ku）が〈0〉のデータ
+*/
+select 
+sm.student_no,
+ sm.student_kj,
+ sm.student_kn,
+ sm.gakka_no,
+ sm.delete_ku
+from student_mst sm
+where sm.gakka_no >=4
+and sm.gakka_no !=7
+and sm.delete_ku = 0;

@@ -1,0 +1,125 @@
+問１：テーブル作成
+テーブルレイアウトを参考に、「student_mst」（学生マスタ）テーブルと「gakka_mst」（学科マスタ）テーブルを作成するSQL 文を作成すること。
+※注意点：テーブル名は、下記のルールで命名すること。 （+はテーブル名に入れません）
+s+学籍番号+_+テーブル名 例）s24000000_student_mst
+s+学籍番号+_+テーブル名 例）s24000000_gakka_mst
+
+
+create table s24083010_student_mst (
+ student_no int not null,
+ student_kj varchar(255) not null,
+ student_kn varchar(255) null,
+ student_cd varchar(20) null,
+ gakka_no int null,
+ seibetu_ku char(1) not null,
+ age_nb int null,
+ test_su int null,
+ delete_ku char(1) not null,
+ insert_at datetime not null,
+ update_at datetime not null,
+
+ primary key(
+  student_no
+ )
+);
+
+
+create table s24083010_gakka_mst (
+ gakka_no int not null,
+ gakka_kj varchar(255) not null,
+ delete_ku char(1) not null,
+ insert_at datetime not null,
+ update_at datetime not null,
+
+ primary key(
+  gakka_no
+ )
+);
+
+問２：レコード一括登録
+問１で作成したテーブル２つにレコードを一括で登録すること。
+（自分が作成した）「s24xxxxxxx_student_mst」（学生マスタ）」　←　student_mst
+（自分が作成した）「s24xxxxxxx_gakka_mst」（学科マスタ）」　←　gakka_mst
+
+insert into s24083010_student_mst
+select * from student_mst sm;
+
+insert into s24083010_gakka_mst
+select * from gakka_mst sm;
+
+
+
+
+
+問３：レコード登録
+（自分が作成した）「student_mst」（学生マスタ）に下記の値で、データを登録すること。
+但し、デリートインサートを使用し、何度でもレコード登録できるようにすること。
+
+delete_from s24083010_student_mst 
+where student_no = 1000;
+insert into s24083010_student_mst (
+    student_no,
+    student_kj,
+    student_kn,
+    student_cd,
+    gakka_no,
+    seibetu_ku,
+    age_nb,
+    test_su,
+    delete_ku,
+    insert_at,
+    update_at
+) values (
+    1000,
+    'TSB TARO',
+    'ティエスビー タロウ',
+    '24000000',
+    100,
+    '0',
+    40,
+    80,
+    '0',
+    now(),
+    now()
+);
+
+
+
+
+問４：レコード更新
+（自分が作成した）「student_mst」（学生マスタ）を下記の値でレコード更新すること。
+
+条件：student_no（生徒ＮＯ）が《1000》のデータを抽出すること。
+更新：テスト点数を《60》、更新日時を《now()》
+
+update s24083010_student_mst SET
+ test_su = 60,
+ update_at = now()
+where student_no = 1000;
+
+問５：レコード削除
+（自分が作成した）「student_mst」（学生マスタ）の下記の条件に一致するデータを「物理削除」すること。
+
+条件：student_no（生徒ＮＯ）が《1000》のデータを削除すること。
+
+delete from s24083010_student_mst
+where student_no = 1000;
+
+
+問６：テーブル削除
+問１で作成したテーブル２つを削除すること。
+（自分が作成した）「s24xxxxxxx_student_mst」（学生マスタ）」
+（自分が作成した）「s24xxxxxxx_gakka_mst」（学科マスタ）」
+
+
+drop table s24083010_student_mst;
+drop table s24083010_gakka_mst;
+
+examen termina
+
+
+select * FROM
+s24083010_student_mst;
+
+
+select now();

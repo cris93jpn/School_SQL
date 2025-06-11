@@ -1,0 +1,316 @@
+inner joinは、内部結合と呼ばれています。「結合条件に合わないデータは取得しない」結果となります。
+下記の結果では、学生マスタと学科マスタの学科NOが結びついたデータのみが表示されています。
+＜例題＞
+
+学生マスタ（student_mst）と学科マスタ（gakka_mst）を内部結合しデータを取得すること。
+カラム
+学生NO（student_no）
+学生名（student_kj）
+学生マスタの学科NO（gakka_no）
+学科名（gakka_kj）
+結合条件
+学生マスタの学科NO（gakka_no）と学科マスタの学科NO（gakka_no）
+抽出条件なし
+
+select
+ sm.student_no
+,sm.student_kj
+,sm.gakka_no
+,gm.gakka_kj
+ from student_mst sm
+ inner join gakka_mst gm
+ on sm.gakka_no = gm.gakka_no;
+
+left joinは、左外部結合と呼ばれています。「結合条件に合わなくても左テーブルのデータをすべて表示する」結果となります。
+下記の結果では、学生マスタと学科マスタの学科NOが結びついたデータ以外にも、student_mstのデータすべてが表示されています。
+※データベースによって、表記（left outer join）が異なります。
+＜例題＞
+
+「学生マスタ（student_mst）のすべてのデータ」と「学科マスタ（gakka_mst）」を『left join』を利用して結合しデータ取得すること。
+カラム
+学生NO（student_no）
+学生名（student_kj）
+学生マスタの学科NO（gakka_no）
+学科名（gakka_kj）
+結合条件
+学生マスタの学科NO（gakka_no）と学科マスタの学科NO（gakka_no）
+抽出条件なし
+
+select
+ sm.student_no
+,sm.student_kj
+,sm.gakka_no
+,gm.gakka_kj
+ from student_mst sm
+ left join gakka_mst gm
+ on sm.gakka_no = gm.gakka_no;
+
+right joinは、右外部結合と呼ばれています。「結合条件に合わなくても右テーブルのデータをすべて表示する」結果となります。
+下記の結果では、学生マスタと学科マスタの学科NOが結びついたデータ以外にも、gakka_mstのデータすべてが表示されています。
+※データベースによって、表記（right outer join）が異なります。
+＜例題＞
+
+「学生マスタ（student_mst）」と「学科マスタ（gakka_mst）のすべてのデータ」を『right join』を利用して結合しデータ取得すること。
+抽出条件なし
+カラム
+学生NO（student_no）
+学生名（student_kj）
+学生マスタの学科NO（gakka_no）
+学科名（gakka_kj）
+結合条件
+学生マスタの学科NO（gakka_no）と学科マスタの学科NO（gakka_no）
+
+select
+ sm.student_no
+,sm.student_kj
+,sm.gakka_no
+,gm.gakka_kj
+ from student_mst sm
+ right join gakka_mst gm
+ on sm.gakka_no = gm.gakka_no;
+
+結合条件「on」の後
+テーブル結合する際に実行される条件となります。「on」後に条件を設定します。
+＜例題＞
+
+学生マスタ（student_mst）と学科マスタ（gakka_mst）を結合しデータを取得すること。
+カラム
+学生NO（student_no）
+学生名（student_kj）
+学生マスタの学科NO（gakka_no）
+学科名（gakka_kj）
+結合条件
+学生マスタの学科NO（gakka_no）と学科マスタの学科NO（gakka_no）
+かつ学生マスタの削除区分（delete_ku）が〈0〉
+かつ学科マスタの削除区分（delete_ku）が〈0〉
+抽出条件なし
+
+
+select
+ sm.student_no
+,sm.student_kj
+,sm.gakka_no
+,gm.gakka_kj
+ from student_mst sm
+ inner join gakka_mst gm
+ on sm.gakka_no = gm.gakka_no
+ and sm.delete_ku = '0'
+ and gm.delete_ku = '0';
+
+ select
+ gm.gakka_no,
+ gm.gakka_kj,
+ avg(sm.test_su)
+ from gakka_mst gm
+ inner join student_mst sm
+ on sm.gakka_no = gm.gakka_no
+ and sm.delete_ku = '0'
+ and gm.delete_ku = '0'
+ where sm.test_su >= 50
+ and sm.test_su <= 90
+ group by gm.gakka_no,
+ gm.gakka_kj
+ having avg(sm.test_su) >= 65
+ and avg(sm.test_su) < 80
+ order by avg(sm.test_su) DESC
+  ,gm.gakka_no asc;
+
+
+
+/*問１：レコード抽出（条件）
+テーブル「student_mst」（学生マスタ）と学科マスタ（gakka_mst）を内部結合し、データを取得すること。
+カラム：
+学生NO（student_no）
+学生名（student_kj）
+テスト点数（test_su）
+学生マスタの削除区分（delete_ku）
+学生マスタの学科NO（gakka_no）
+学科マスタの学科NO（gakka_no）
+学科名（gakka_kj）
+学科マスタの削除区分（delete_ku）
+を表示すること
+結合条件：学生マスタの学科NO（gakka_no）と学科マスタの学科NO（gakka_no）
+抽出条件：なし
+*/
+
+SELECT
+ sm.student_no,
+ sm.student_kj,
+ sm.test_su,
+ sm.delete_ku,
+ sm.gakka_no,
+ gm.gakka_no,
+ gm.gakka_kj,
+ gm.delete_ku
+from student_mst sm 
+inner join gakka_mst gm
+on sm.gakka_no = gm.gakka_no;
+
+/*問２：レコード抽出（条件）
+テーブル「student_mst」（学生マスタ）と学科マスタ（gakka_mst）を内部結合し、データを取得すること。
+カラム：
+学生NO（student_no）
+学生名（student_kj）
+テスト点数（test_su）
+学生マスタの削除区分（delete_ku）
+学生マスタの学科NO（gakka_no）
+学科マスタの学科NO（gakka_no）
+学科名（gakka_kj）
+学科マスタの削除区分（delete_ku）
+を表示すること
+結合条件：学生マスタの学科NO（gakka_no）と学科マスタの学科NO（gakka_no）
+かつ、学生マスタの削除区分（delete_ku）が〈0〉のデータ
+かつ、学科マスタの削除区分（delete_ku）が〈0〉のデータ
+抽出条件：無し
+*/
+SELECT
+ sm.student_no,
+ sm.student_kj,
+ sm.test_su,
+ sm.delete_ku,
+ sm.gakka_no,
+ gm.gakka_no,
+ gm.gakka_kj,
+ gm.delete_ku
+from student_mst sm 
+inner join gakka_mst gm
+on sm.gakka_no = gm.gakka_no
+and sm.delete_ku = '0'
+and gm.delete_ku = '0';
+
+/*問３：レコード抽出（条件）
+テーブル「student_mst」（学生マスタ）のすべてのデータと学科マスタ（gakka_mst）を結合し、データを取得すること。
+カラム：
+学生NO（student_no）
+学生名（student_kj）
+テスト点数（test_su）
+学生マスタの削除区分（delete_ku）
+学生マスタの学科NO（gakka_no）
+学科マスタの学科NO（gakka_no）
+学科名（gakka_kj）
+学科マスタの削除区分（delete_ku）
+を表示すること
+結合条件：学生マスタの学科NO（gakka_no）と学科マスタの学科NO（gakka_no）
+かつ、学生マスタの削除区分（delete_ku）が〈0〉のデータ
+かつ、学科マスタの削除区分（delete_ku）が〈0〉のデータ
+抽出条件：無し
+*/
+
+SELECT
+ sm.student_no,
+ sm.student_kj,
+ sm.test_su,
+ sm.delete_ku,
+ sm.gakka_no,
+ gm.gakka_no,
+ gm.gakka_kj,
+ gm.delete_ku
+from student_mst sm 
+left join gakka_mst gm
+on sm.gakka_no = gm.gakka_no
+and sm.delete_ku = '0'
+and gm.delete_ku = '0';
+
+/*問４：レコード抽出（条件）
+テーブル「student_mst」（学生マスタ）のすべてのデータと学科マスタ（gakka_mst）を結合し、データを取得すること。
+カラム：
+学生NO（student_no）
+学生名（student_kj）
+テスト点数（test_su）
+学生マスタの削除区分（delete_ku）
+学生マスタの学科NO（gakka_no）
+学科マスタの学科NO（gakka_no）
+学科名（gakka_kj）
+学科マスタの削除区分（delete_ku）
+を表示すること
+結合条件：学生マスタの学科NO（gakka_no）と学科マスタの学科NO（gakka_no）
+かつ、学生マスタの削除区分（delete_ku）が〈0〉のデータ
+かつ、学科マスタの削除区分（delete_ku）が〈0〉のデータ
+抽出条件：学生マスタの削除区分（delete_ku）が〈0〉のデータ
+かつ、学科マスタの削除区分（delete_ku）が〈0〉のデータ
+*/
+
+SELECT
+ sm.student_no,
+ sm.student_kj,
+ sm.test_su,
+ sm.delete_ku,
+ sm.gakka_no,
+ gm.gakka_no,
+ gm.gakka_kj,
+ gm.delete_ku
+from student_mst sm 
+left join gakka_mst gm
+on sm.gakka_no = gm.gakka_no
+and sm.delete_ku = '0'
+and gm.delete_ku = '0'
+where sm.delete_ku = '0'
+and gm.delete_ku = '0';
+
+/*問５：レコード抽出（条件）
+テーブル「student_mst」（学生マスタ）のすべてのデータと学科マスタ（gakka_mst）を結合し、データを取得すること。
+カラム：
+学生マスタの学科NO（gakka_no）
+学科名（gakka_kj）
+平均点数（test_su）
+を表示すること
+結合条件：学生マスタの学科NO（gakka_no）と学科マスタの学科NO（gakka_no）
+かつ、学生マスタの削除区分（delete_ku）が〈0〉のデータ
+かつ、学科マスタの削除区分（delete_ku）が〈0〉のデータ
+抽出条件：学生マスタの削除区分（delete_ku）が〈0〉のデータ
+学科マスタの削除区分（delete_ku）が〈0〉のデータ
+集計単位：学生マスタの学科NO（gakka_no）ごと
+かつ、学科名（gakka_kj）ごと
+*/
+SELECT
+ sm.gakka_no,
+ gm.gakka_kj,
+ avg(sm.test_su)
+from student_mst sm 
+left join gakka_mst gm
+on sm.gakka_no = gm.gakka_no
+and sm.delete_ku = '0'
+and gm.delete_ku = '0'
+where sm.delete_ku = '0'
+and gm.delete_ku = '0'
+group by sm.gakka_no,
+ gm.gakka_kj;
+
+ /*問６：レコード抽出（条件＆並び替え）
+テーブル「student_mst」（学生マスタ）のすべてのデータと学科マスタ（gakka_mst）を結合し、データを取得すること。
+カラム：
+学生マスタの学科NO（gakka_no）
+学科名（gakka_kj）
+平均点数（test_su）
+を表示すること
+結合条件：学生マスタの学科NO（gakka_no）と学科マスタの学科NO（gakka_no）
+かつ、学生マスタの削除区分（delete_ku）が〈0〉のデータ
+かつ、学科マスタの削除区分（delete_ku）が〈0〉のデータ
+抽出条件：学生マスタの削除区分（delete_ku）が〈0〉のデータ
+かつ、学科マスタの削除区分（delete_ku）が〈0〉のデータ
+集計単位：学生マスタの学科NO（gakka_no）ごと 学科名（gakka_kj）ごと
+集計後条件：平均点数が３０点以上、８０点未満
+並び順：平均点数を降順
+学生マスタの学科NO（gakka_no）を降順
+*/
+SELECT
+ sm.gakka_no,
+ gm.gakka_kj,
+ avg(sm.test_su)
+from student_mst sm 
+left join gakka_mst gm
+on sm.gakka_no = gm.gakka_no
+and sm.delete_ku = 0
+and gm.delete_ku = 0
+where sm.delete_ku = 0
+and gm.delete_ku = 0
+group by sm.gakka_no,
+ gm.gakka_kj
+ having avg(sm.test_su) >=30
+ and avg(sm.test_su) < 80
+ order by avg(sm.test_su) DESC,
+ sm.gakka_no DESC;
+
+
+
+

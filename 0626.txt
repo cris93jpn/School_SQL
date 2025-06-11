@@ -1,0 +1,342 @@
+select * FROM
+student_mst sm 
+where sm.gakka_no in (1,2,3,4,5);
+
+select gm.gakka_no FROM gakka_mst gm 
+where sm.gakka_no in (1,2,3,4,5);
+
+select * from student_mst sm 
+where sm.gakka_no in (
+    select gm.gakka_no from gakka_mst gm 
+    where gm.gakka_no in (1,2,3,4,5)
+);
+
+
+select * from student_mst sm 
+where sm.gakka_no in (
+    select gm.gakka_no from gakka_mst gm 
+    where gm.gakka_no like '%ペット%'
+);
+
+
+パターン１
+＜例題＞
+
+学生マスタ【基データ】（student_mst_base）から学生マスタ（stundent_mst）にすべてのレコードを移行してください。
+
+insert into student_mst
+ select * from student_mst_base smb;
+
+
+パターン２
+＜例題＞
+
+学生マスタ【基データ】（student_mst_base）から学生マスタ（stundent_mst）にすべてのレコードを移行してください。
+
+insert into student_mst(
+student_no
+,student_kj
+,student_kn
+,student_cd
+,gakka_no
+,seibetu_ku
+,age_nb
+,test_su
+,delete_ku
+,insert_at
+,update_at
+)
+select
+ smb.student_no
+,smb.student_kj
+,smb.student_kn
+,smb.student_cd
+,smb.gakka_no
+,smb.seibetu_ku
+,smb.age_nb
+,smb.test_su
+,smb.delete_ku
+,smb.insert_at
+,smb.update_at
+ from student_mst_base smb;
+
+こんなテクニックも！
+＜例題＞
+
+学生マスタ【基データ】（student_mst_base）から学生マスタ（stundent_mst）にすべてのレコードを移行してください。
+但し、下記カラムについては固定値を登録すること。
+
+学科NO（gakka_no）は、〈5〉
+削除区分（delete_ku）は、〈0〉
+登録日時（insert_at）は、now()
+更新日時（update_at）は、now()
+
+
+insert into student_mst(
+student_no
+,student_kj
+,student_kn
+,student_cd
+,gakka_no
+,seibetu_ku
+,age_nb
+,test_su
+,delete_ku
+,insert_at
+,update_at
+)
+select
+ smb.student_no
+,smb.student_kj
+,smb.student_kn
+,smb.student_cd
+,5
+,smb.seibetu_ku
+,smb.age_nb
+,smb.test_su
+,'0'
+,now()
+,now()
+ from student_mst_base smb;
+
+
+外部キーの設定
+下記のテーブルレイアウトの通り、学科NO（gakka_no）のNULL項目のところに、「FK」と記述します。
+※この表記は、企業によって表記がことなります。
+
+今回の関係を整理してみます。
+
+学生マスタ（student_mst）は、参照元テーブル（子テーブル：参照する）
+学科マスタ（gakka_mst）は、参照先テーブル（親テーブル：参照される）
+
+create table [テーブル名](
+ [カラム名1] [型] [null/not null],
+ [カラム名2] [型] [null/not null],
+ [カラム名3] [型] [null/not null],
+ 
+ primary key (
+  [カラム名1]
+ ),
+ foreign key([参照元カラム名]) references [参照先テーブル名]([参照先カラム名])
+);
+
+＜例題＞
+
+テーブルレイアウトを基にテーブルを作成すること。（テーブル名は、「gakka_mst_fk」「student_mst_fk」とする。）
+
+create table gakka_mst_fk (
+ gakka_no int not null,
+ gakka_kj varchar(255) not null,
+ delete_ku char(1) not null,
+ insert_at datetime not null,
+ update_at datetime not null,
+
+ primary key(
+  gakka_no
+ )
+);
+
+create table student_mst_fk (
+ student_no int not null,
+ student_kj varchar(255) not null,
+ student_kn varchar(255) null,
+ student_cd varchar(20) null,
+ gakka_no int null,
+ seibetu_ku char(1) not null,
+ age_nb int null,
+ test_su int null,
+ delete_ku char(1) not null,
+ insert_at datetime not null,
+ update_at datetime not null,
+
+ primary key(
+  student_no
+ ),
+ foreign key(gakka_no) references gakka_mst_fk(gakka_no)
+);
+
+
+
+
+create table s24083010_gakka_mst_fk (
+ gakka_no int not null,
+ gakka_kj varchar(255) not null,
+ delete_ku char(1) not null,
+ insert_at datetime not null,
+ update_at datetime not null,
+
+ primary key(
+  gakka_no
+ )
+);
+
+create table s24083010_student_mst_fk (
+ student_no int not null,
+ student_kj varchar(255) not null,
+ student_kn varchar(255) null,
+ student_cd varchar(20) null,
+ gakka_no int null,
+ seibetu_ku char(1) not null,
+ age_nb int null,
+ test_su int null,
+ delete_ku char(1) not null,
+ insert_at datetime not null,
+ update_at datetime not null,
+
+ primary key(
+  student_no
+ ),
+ foreign key(gakka_no) references s24083010_gakka_mst_fk(gakka_no)
+);
+
+
+auto_increment
+下記のテーブルレイアウトの通り、学生NO（student_no）の備考に、「auto_increment」と記述します。
+※この表記は、企業によって表記がことなります。
+
+create table [テーブル名](
+ [カラム名1] [型] [null/not null] auto_increment,
+ [カラム名2] [型] [null/not null],
+ [カラム名3] [型] [null/not null],
+ 
+ primary key (
+  [カラム名1]
+ )
+);
+
+＜例題＞
+
+テーブルレイアウトを基にテーブルを作成すること。（テーブル名は、「student_mst_ai」とする。）
+
+create table student_mst_ai (
+ student_no int not null auto_increment,
+ student_kj varchar(255) not null,
+ student_kn varchar(255) null,
+ student_cd varchar(20) null,
+ gakka_no int null,
+ seibetu_ku char(1) not null,
+ age_nb int null,
+ test_su int null,
+ delete_ku char(1) not null,
+ insert_at datetime not null,
+ update_at datetime not null,
+
+ primary key(
+  student_no
+ )
+);
+
+上記のテーブル構造になることで、insert文の学生NO（student_no）の記述が不要となります。そのカラムは自動で採番されるようになります。
+
+
+insert into student_mst_ai(
+student_kj
+,student_kn
+,student_cd
+,gakka_no
+,seibetu_ku
+,age_nb
+,test_su
+,delete_ku
+,insert_at
+,update_at
+) values (
+'井田 テスト'
+,'イダ テスト'
+,'21000000'
+,1
+,'0'
+,20
+,100
+,'0'
+,now()
+,now()
+);
+
+
+
+
+
+/*問題1*/
+
+create table s24083010_gakka_mst_af (
+gakka_no int not null,
+gakka_kj varchar(255) not null,
+delete_ku char(1) not null,
+insert_at datetime not null,
+update_at datetime not null,
+primary key (
+gakka_no
+)
+);
+create table s24083010_student_mst_af (
+student_no int not null auto_increment,
+student_kj varchar(255) not null,
+student_kn varchar(255) null,
+student_cd varchar(20) null,
+gakka_no int null,
+seibetu_ku char(1) not null,
+age_nb int null,
+test_su int null,
+delete_ku char(1) not null,
+insert_at datetime not null,
+update_at datetime not null,
+
+primary key (
+student_no
+),
+foreign key(gakka_no) references s24083010_gakka_mst_af(gakka_no)
+);
+
+/*問題２*/
+insert into s24083010_gakka_mst_af
+select * from gakka_mst gm;
+
+/*問題３*/
+insert into s24083010_student_mst_af
+select * from student_mst sm
+where sm.gakka_no in (
+select gm.gakka_no from gakka_mst gm
+);
+
+/*問題４*/
+insert into s24083010_student_mst_af (
+student_kj,
+student_kn,
+student_cd,
+gakka_no,
+seibetu_ku,
+age_nb,
+test_su,
+delete_ku,
+insert_at,
+update_at
+) values (
+'TSB TARO',
+'ティエスビー タロウ',
+'24000000',
+1,
+'0',
+40,
+80,
+'0',
+now(),
+now()
+);
+
+/*問題５*/
+SELECT
+sm.gakka_no,
+gm.gakka_kj,
+avg(sm.age_nb)
+from s24083010_student_mst_af sm
+inner JOIN s24083010_gakka_mst_af gm
+on sm.gakka_no = gm.gakka_no
+and sm.delete_ku = '0'
+and gm.delete_ku = '0'
+group by sm.gakka_no,
+gm.gakka_kj;
+
+/*問題６*/
+drop table s24083010_gakka_mst_af;
+drop table s24083010_student_mst_af;

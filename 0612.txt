@@ -1,0 +1,173 @@
+＜変更点＞
+
+「inner join」を「,（カンマ）」に変える
+「on」を「where」や「and」に変える
+結合するテーブルが３つ以上の場合には、「where」だけでは足りないため「and」を使用します。
+
+＜例題＞
+
+学生マスタ（student_mst）と学科マスタ（gakka_mst）を結合しデータを取得すること。
+カラム
+学生NO（student_no）
+学生名（student_kj）
+学生マスタの学科NO（gakka_no）
+学科名（gakka_kj）
+結合条件
+学生マスタの学科NO（gakka_no）と学科マスタの学科NO（gakka_no）
+かつ学生マスタの削除区分（delete_ku）が〈0〉
+かつ学科マスタの削除区分（delete_ku）が〈0〉
+抽出条件なし
+
+select
+ sm.student_no
+,sm.student_kj
+,sm.gakka_no
+,gm.gakka_kj
+ from student_mst sm
+,gakka_mst gm
+ where sm.gakka_no = gm.gakka_no
+ and sm.delete_ku = '0'
+ and gm.delete_ku = '0';
+
+
+
+
+
+SELECT
+ sm.gakka_no,
+ gm.gakka_kj,
+ avg(sm.test_su)
+from student_mst sm,
+ gakka_mst gm
+where sm.gakka_no = gm.gakka_no
+and sm.delete_ku = 0
+and gm.delete_ku = 0
+group by sm.gakka_no,
+ gm.gakka_kj
+ having avg(sm.test_su) >=30
+ and avg(sm.test_su) < 80
+ order by avg(sm.test_su) DESC,
+ sm.gakka_no DESC;
+
+テーブルレイアウトを基にテーブルを作成すること。
+
+create table student_mst (
+ student_no int not null,
+ student_kj varchar(255) not null,
+ student_kn varchar(255) null,
+ student_cd varchar(20) null,
+ gakka_no int null,
+ seibetu_ku char(1) not null,
+ age_nb int null,
+ test_su int null,
+ delete_ku char(1) not null,
+ insert_at datetime not null,
+ update_at datetime not null,
+
+ primary key(
+  student_no
+ )
+);
+
+複合キー
+下記のテーブルレイアウトをみるとプライマリーキーは「gakka_no」と「attend_no」の２つとなります。この場合、「複合キー」です。
+
+create table [テーブル名](
+ [カラム名1] [型] [null/not null],
+ [カラム名2] [型] [null/not null],
+ [カラム名3] [型] [null/not null],
+ 
+ primary key (
+   [カラム名1]
+  ,[カラム名2]
+ )
+);
+
+
+テーブルレイアウトを基にテーブルを作成すること。
+
+create table student_mst (
+ gakka_no int null,
+ attend_no int null,
+ student_kj varchar(255) not null,
+ student_kn varchar(255) null,
+ student_cd varchar(20) null,
+ seibetu_ku char(1) not null,
+ age_nb int null,
+ test_su int null,
+ delete_ku char(1) not null,
+ insert_at datetime not null,
+ update_at datetime not null,
+
+ primary key(
+   gakka_no
+  ,attend_no
+ )
+);
+
+キー無し
+下記のテーブルレイアウトをみるとプライマリーキーがありません。
+アクセスログなどで、データを登録するのみで、更新／削除することが無いテーブルの場合、このようなテーブルレイアウトとなる場合があります。
+
+create table student_mst (
+ student_no int not null,
+ student_kj varchar(255) not null,
+ student_kn varchar(255) null,
+ student_cd varchar(20) null,
+ gakka_no int null,
+ seibetu_ku char(1) not null,
+ age_nb int null,
+ test_su int null,
+ delete_ku char(1) not null,
+ insert_at datetime not null,
+ update_at datetime not null
+);
+
+学科マスタも作成してみよう
+create table gakka_mst (
+ gakka_no int not null,
+ gakka_kj varchar(255) not null,
+ delete_ku char(1) not null,
+ insert_at datetime not null,
+ update_at datetime not null,
+
+ primary key(
+  gakka_no
+ )
+);
+
+
+
+create table s24083010_student_mst(
+    student_no int not null,
+    student_kj varchar(255) not null,
+    student_kn varchar(255) null,
+    student_cd varchar(20) null,
+    gakka_no int null,
+    seibetu_ku char(1) not null,
+    age_nb int null,
+    test_su int null,
+    delete_ku char(1) not null,
+    insert_at datetime not null,
+    update_at datetime not null,
+
+
+    primary key(
+        student_no
+    )
+);
+
+
+create table s24083010_gakka_mst(
+    gakka_no int not null,
+    gakka_kj varchar(255) not null,
+    delete_ku char(1) not null,
+    insert_at datetime not null,
+    update_at datetime not null,
+
+    primary key(
+        gakka_no
+    )
+);
+
+

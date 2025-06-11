@@ -1,0 +1,449 @@
+＜例題＞ 個数を取得（カウント） count関数
+
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件なし
+カラム：学生NO（student_no）の個数を取得（カウント）すること
+
+
+select count(sm.student_no) from student_mst sm;
+
+
+＜例題＞ 最大値を取得 max関数
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件なし
+カラム：テスト点数（test_su）の最大値を取得すること
+
+select max(sm.test_su) from student_mst sm;
+
+＜例題＞ 最小値を取得 min関数
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件なし
+カラム：テスト点数（test_su）の最小値を取得すること
+
+select min(sm.test_su) from student_mst sm;
+
+
+＜例題＞ 平均値を取得（平均点） avg関数
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件なし
+カラム：テスト点数（test_su）の平均値を取得（平均点）すること
+
+select avg(sm.test_su) from student_mst sm;
+
+
+＜例題＞ 合計値を取得 sum関数
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件なし
+カラム：テスト点数（test_su）の合計値を取得すること
+
+select sum(sm.test_su) from student_mst sm;
+
+
+＜例題＞
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件
+学科NO（gakka_no）が〈２〉以上
+かつ学科NO（gakka_no）が〈10〉未満
+カラム：テスト点数（test_su）の平均値を取得（平均点）すること
+
+select avg(sm.test_su) from student_mst sm
+ where sm.gakka_no >= 2
+ and sm.gakka_no < 10;
+
+
+ SELECT
+ count(sm.student_no) cnt
+ from student_mst sm
+ where sm.test_su >= 50;
+
+
+＜例題＞ ごと 集計単位
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件なし
+カラム：テスト点数（test_su）の平均値を取得（平均点）すること
+集計単位
+学科NO（gakka_no）ごと
+
+select avg(sm.test_su) from student_mst sm
+ group by sm.gakka_no;
+
+
+＜例題＞
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件なし
+カラム
+学科NO（gakka_no）
+テスト点数（test_su）の平均値を取得（平均点）すること
+集計単位
+学科NO（gakka_no）ごと
+
+select
+ sm.gakka_no
+,avg(sm.test_su)
+ from student_mst sm
+ group by sm.gakka_no;
+
+
+＜例題＞
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件なし
+カラム
+学科NO（gakka_no）
+性別（seibetu_ku）
+テスト点数（test_su）の平均値を取得（平均点）すること
+集計単位
+学科NO（gakka_no）ごと
+性別（seibetu_ku）ごと
+
+select
+ sm.gakka_no
+,sm.seibetu_ku
+,avg(sm.test_su)
+ from student_mst sm
+ group by sm.gakka_no
+,sm.seibetu_ku;
+
+
+＜例題＞
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件
+学科NO（gakka_no）が〈２〉以上
+かつ学科NO（gakka_no）が〈10〉未満
+カラム
+学科NO（gakka_no）
+性別（seibetu_ku）
+テスト点数（test_su）の平均値を取得（平均点）すること
+集計単位
+学科NO（gakka_no）ごと
+性別（seibetu_ku）ごと
+
+select
+ sm.gakka_no
+,sm.seibetu_ku
+,avg(sm.test_su)
+ from student_mst sm
+ where sm.gakka_no >= 2
+ and sm.gakka_no < 10
+ group by sm.gakka_no
+,sm.seibetu_ku;
+
+
+＜例題＞
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件
+学科NO（gakka_no）が〈２〉以上
+かつ学科NO（gakka_no）が〈10〉未満
+カラム
+学科NO（gakka_no）
+性別（seibetu_ku）
+テスト点数（test_su）の平均値を取得（平均点）すること
+集計単位
+学科NO（gakka_no）ごと
+性別（seibetu_ku）ごと
+並び替え
+学科NO（gakka_no）を降順
+
+
+select
+ sm.gakka_no
+,sm.seibetu_ku
+,avg(sm.test_su)
+ from student_mst sm
+ where sm.gakka_no >= 2
+ and sm.gakka_no < 10
+ group by sm.gakka_no
+,sm.seibetu_ku
+ order by sm.gakka_no desc;
+
+
+
+ SELECT
+  sm.gakka_no gk,
+  avg(sm.test_su) avrg
+  from student_mst sm
+  GROUP BY sm.gakka_no;
+
+ SELECT
+  sm.gakka_no gk,
+  sm.seibetu_ku sb,
+  avg(sm.test_su) avrg
+  from student_mst sm
+  GROUP BY sm.gakka_no
+  ,sm.seibetu_ku;
+
+   SELECT
+  sm.gakka_no gk,
+  avg(sm.test_su) avrg
+  from student_mst sm
+  where sm.gakka_no >= 2
+  and sm.gakka_no < 10
+  GROUP BY sm.gakka_no;
+
+
+SELECT
+  sm.gakka_no gk,
+  avg(sm.test_su) avrg
+  from student_mst sm
+  where sm.gakka_no >= 2
+  and sm.gakka_no < 10
+  GROUP BY sm.gakka_no
+  ORDER BY sm.gakka_no desc;
+
+
+
+＜例題＞ having条件 集計後条件
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件（集計前）なし
+カラム
+学科NO（gakka_no）
+性別（seibetu_ku）
+テスト点数（test_su）の平均値を取得（平均点）すること
+集計単位
+学科NO（gakka_no）ごと
+性別（seibetu_ku）ごと
+集計後条件
+テスト点数（test_su）の平均値を取得（平均点）が〈50〉以上
+
+
+select
+ sm.gakka_no
+,sm.seibetu_ku
+,avg(sm.test_su)
+ from student_mst sm
+ group by sm.gakka_no
+,sm.seibetu_ku
+ having avg(sm.test_su) >= 50;
+
+＜例題＞ 追加集計条件
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件（集計前）なし
+カラム
+学科NO（gakka_no）
+性別（seibetu_ku）
+テスト点数（test_su）の平均値を取得（平均点）すること
+集計単位
+学科NO（gakka_no）ごと
+性別（seibetu_ku）ごと
+集計後条件
+テスト点数（test_su）の平均値を取得（平均点）が〈50〉以上
+かつテスト点数（test_su）の平均値を取得（平均点）が〈80〉未満
+
+
+select
+ sm.gakka_no
+,sm.seibetu_ku
+,avg(sm.test_su)
+ from student_mst sm
+ group by sm.gakka_no
+,sm.seibetu_ku
+ having avg(sm.test_su) >= 50
+ and avg(sm.test_su) < 80;
+
+
+＜例題＞ 条件と並び替え
+
+学生マスタ（student_mst）からデータを取得すること。
+抽出条件（集計前）
+学科NO（gakka_no）が〈２〉以上
+かつ学科NO（gakka_no）が〈10〉未満
+カラム
+学科NO（gakka_no）
+性別（seibetu_ku）
+テスト点数（test_su）の平均値を取得（平均点）すること
+集計単位
+学科NO（gakka_no）ごと
+性別（seibetu_ku）ごと
+集計後条件
+テスト点数（test_su）の平均値を取得（平均点）が〈50〉以上
+かつテスト点数（test_su）の平均値を取得（平均点）が〈80〉未満
+並び順
+テスト点数（test_su）の平均値を取得（平均点）を降順
+
+select
+ sm.gakka_no
+,sm.seibetu_ku
+,avg(sm.test_su)
+ from student_mst sm
+ where sm.gakka_no >= 2
+ and sm.gakka_no < 10
+ group by sm.gakka_no
+,sm.seibetu_ku
+ having avg(sm.test_su) >= 50
+ and avg(sm.test_su) < 80
+ order by avg(sm.test_su) desc;
+
+
+
+
+SELECT
+  sm.gakka_no gk,
+  avg(sm.test_su) avrg
+  from student_mst sm
+  where sm.gakka_no >= 2
+  and sm.gakka_no < 10
+  GROUP BY sm.gakka_no;
+
+
+SELECT
+  sm.gakka_no gk,
+  avg(sm.test_su) avrg
+  from student_mst sm
+  where sm.gakka_no >= 2
+  and sm.gakka_no < 10
+  GROUP BY sm.gakka_no
+  ORDER BY sm.gakka_no desc;
+
+
+SELECT
+  sm.gakka_no gk,
+  avg(sm.test_su) avrg
+  from student_mst sm
+  where sm.gakka_no >= 2
+  and sm.gakka_no < 10
+  GROUP BY sm.gakka_no
+  having avg(sm.test_su) >=50
+  and avg(sm.test_su) < 80
+  order by sm.gakka_no desc;
+
+
+/*問題1
+問１：レコード抽出（条件）
+テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：平均年齢（age_nb）を表示すること
+*/
+
+SELECT
+  avg(sm.age_nb)
+ from student_mst sm;
+
+
+/*問題2
+テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：平均年齢（age_nb）を表示すること
+抽出条件（集計前）：削除区分（delete_ku）が〈0〉のデータ
+　　　　かつ、学籍番号（student_cd）が「NULLではない」データ
+　　　　かつ、学籍番号（student_cd）が「空（カラ）ではない」データ
+　　　　かつ、学科NO（gakka_no）が「NULLではない」データ
+*/
+
+SELECT
+ avg(sm.age_nb)
+FROM student_mst sm
+where sm.delete_ku = '0'
+and sm.student_cd is not NULL
+and sm.student_cd != ''
+and sm.gakka_no is not null;
+
+
+
+/* 問題3
+テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：学科NO（gakka_no）、平均年齢（age_nb）を表示すること
+抽出条件（集計前）：削除区分（delete_ku）が〈0〉のデータ
+　　　　かつ、学籍番号（student_cd）が「NULLではない」データ
+　　　　かつ、学籍番号（student_cd）が「空（カラ）ではない」データ
+　　　　かつ、学科NO（gakka_no）が「NULLではない」データ
+集計単位：学科NO（gakka_no）ごと
+*/
+
+SELECT
+ sm.gakka_no,
+ avg(sm.age_nb)
+FROM student_mst sm
+where sm.delete_ku = '0'
+and sm.student_cd is not NULL
+and sm.student_cd != ''
+and sm.gakka_no is not null
+group by sm.gakka_no;
+
+/* 問題4
+テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：学科NO（gakka_no）、平均点数（test_su）を表示すること
+抽出条件（集計前）：削除区分（delete_ku）が〈0〉のデータ
+　　　　かつ、学籍番号（student_cd）が「NULLではない」データ
+　　　　かつ、学籍番号（student_cd）が「空（カラ）ではない」データ
+　　　　かつ、学科NO（gakka_no）が「NULLではない」データ
+集計単位：学科NO（gakka_no）ごと
+並び替え：学科NO（gakka_no）を降順
+*/
+
+SELECT
+ sm.gakka_no,
+ avg(sm.age_nb)
+FROM student_mst sm
+where sm.delete_ku = '0'
+and sm.student_cd is not NULL
+and sm.student_cd != ''
+and sm.gakka_no is not null
+group by sm.gakka_no
+order by sm.gakka_no DESC;
+
+
+/* 問題５
+テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：学科NO（gakka_no）、平均点数（test_su）を表示すること
+抽出条件（集計前）：削除区分（delete_ku）が〈0〉のデータ
+　　　　かつ、学籍番号（student_cd）が「NULLではない」データ
+　　　　かつ、学籍番号（student_cd）が「空（カラ）ではない」データ
+　　　　かつ、学科NO（gakka_no）が「NULLではない」データ
+集計単位：学科NO（gakka_no）ごと
+集計後条件：平均点数（test_su）が30点以上
+　　　　かつ、平均点数（test_su）が90点未満
+並び替え：学科NO（gakka_no）を降順
+*/
+
+
+SELECT
+ sm.gakka_no,
+ avg(sm.test_su)
+FROM student_mst sm
+where sm.delete_ku = '0'
+and sm.student_cd is not NULL
+and sm.student_cd != ''
+and sm.gakka_no is not null
+group by sm.gakka_no
+having avg(test_su) >= 30
+and avg(test_su) < 90
+order by sm.gakka_no DESC;
+
+
+ /* 問題６
+ テーブル「student_mst」（学生マスタ）からデータを取得すること。
+カラム：学科NO（gakka_no）、平均点数（test_su）を表示すること
+抽出条件（集計前）：削除区分（delete_ku）が〈0〉のデータ
+　　　　かつ、学籍番号（student_cd）が「NULLではない」データ
+　　　　かつ、学籍番号（student_cd）が「空（カラ）ではない」データ
+　　　　かつ、学科NO（gakka_no）が「NULLではない」データ
+集計単位：学科NO（gakka_no）ごと
+集計後条件：平均点数（test_su）が30点以上
+　　　　かつ、平均点数（test_su）が90点未満
+並び替え：平均点数（test_su）を降順
+　　　　学科NO（gakka_no）を昇順
+*/
+
+SELECT
+ sm.gakka_no,
+ avg(sm.test_su)
+FROM student_mst sm
+where sm.delete_ku = '0'
+and sm.student_cd is not NULL
+and sm.student_cd != ''
+and sm.gakka_no is not null
+group by sm.gakka_no
+having avg(test_su) >= 30
+and avg(test_su) < 90
+order by avg(sm.test_su) DESC
+ ,sm.gakka_no asc;
+
+

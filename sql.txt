@@ -1,0 +1,178 @@
+/*条件文*/
+/* student_cd に変更（文字形）*/
+/*20110401*/
+select * from student_mst sm
+ where sm.student_cd = '20110401';
+
+/*条件文*/
+select * from student_mst sm
+ where sm.student_no = 1
+ and sm.delete_ku = '1';
+
+/*条件文１ gakka_no が 1 */
+select * from student_mst sm
+ where sm.gakka_no = 1;
+
+/*条件文１ かつ seibetu_ku が 0 (このカラムは文字形です。)*/
+select * from student_mst sm
+ where sm.gakka_no = 1
+ and sm.seibetu_ku = '0'
+ and sm.student_no = 11;
+
+/*条件文１ gakka_no が 1 */
+/*条件文２ もしくは gakka_no が 3 */
+/*条件文３ もしくは gakka_no が 5 */
+select * from student_mst sm
+ where sm.gakka_no = 1
+ or sm.gakka_no = 3
+ or sm.gakka_no = 5;
+
+ select 
+  sm.student_no,
+  sm.student_kj,
+  sm.student_kn,
+  sm.gakka_no,
+  sm.delete_ku
+ from student_mst sm
+ where student_no = 1;
+
+ select 
+  sm.student_no,
+  sm.student_kj,
+  sm.student_kn,
+  sm.gakka_no,
+  sm.delete_ku
+ from student_mst sm
+ where sm.delete_ku = 0
+ and sm.gakka_no = 1;
+
+ select 
+  sm.student_no,
+  sm.student_kj,
+  sm.student_kn,
+  sm.gakka_no,
+  sm.delete_ku
+ from student_mst sm
+ where sm.gakka_no = 1
+ or sm.gakka_no = 5
+ or sm.gakka_no = 10;
+
+
+
+/*student_mstのすべてのカラム*/
+select * FROM student_mst sm;
+
+/*student_mstから
+カラム　student_no, student_kj, gakka_no*/
+SELECT
+ sm.student_no,
+ sm.student_kj,
+ sm.gakka_no
+ from student_mst sm;
+
+ /*student_mst から　
+ カラム student_no, student_kj, gakka_no
+ gakka_no が　5　のデータ*/
+
+SELECT
+ sm.student_no,
+ sm.student_kj,
+ sm.gakka_no 
+ from student_mst sm
+ where sm.gakka_no = 5;
+
+/*student_mst から　
+ カラム student_no, student_kj, gakka_no, delete_ku
+ gakka_no が　5　のデータ 
+ または gakka_noが7のデータ*/
+
+ SELECT
+  sm.student_no,
+  sm.student_kj,
+  sm.gakka_no,
+  sm.delete_ku
+ from student_mst sm
+ where sm.gakka_no = 5
+ or gakka_no = 7;
+
+ /*student_mst から　
+ カラム student_no, student_kj, gakka_no, delete_ku
+ gakka_no が　5　のデータ 
+  かつ、 delete_kuが　１　のデータ*/
+
+ select
+  sm.student_no,
+  sm.student_kj,
+  sm.gakka_no,
+  sm.delete_ku
+ from student_mst sm
+ where sm.gakka_no = 5
+ and sm.delete_ku = '0';
+
+ select * from student_mst sm
+ where sm.gakka_no = 1
+ or sm.gakka_no = 2
+ and sm.delete_ku = '0';
+
+
+ select * from student_mst sm
+ where (sm.gakka_no = 1
+ or sm.gakka_no = 2)
+ and sm.delete_ku = '0';
+
+seleccionar entre los numeros
+select * from student_mst sm
+where sm.gakka_no = 1
+or sm.gakka_no = 2
+or sm.gakka_no = 3
+or sm.gakka_no = 4
+or sm.gakka_no = 5;
+
+seleccionar entre los numeros forma facil de arriba
+ select * from student_mst sm
+ where sm.gakka_no in (1,2,3,4,5);
+
+seleccionar con preferencia de delete_ku
+select * from student_mst sm
+where (sm.gakka_no = 1
+or sm.gakka_no = 2
+or sm.gakka_no = 3
+or sm.gakka_no = 4
+or sm.gakka_no = 5)
+and sm.delete_ku = '0';
+
+selecionar con preferencia de delete_ku
+select * from student_mst sm
+ where sm.gakka_no in (1,2,3,4,5)
+ and sm.delete_ku = '0';
+
+mas grande o igual a 10 以上
+ select * from student_mst sm
+ where sm.student_no >= 10;
+
+mas grande que 10　より大きい
+ select * from student_mst sm
+ where sm.student_no > 10;
+
+mas peque o igual a 10　以下
+  select * from student_mst sm
+ where sm.student_no <= 10;
+
+mas peque que 10　より小さい
+  select * from student_mst sm
+ where sm.student_no < 10;
+
+menos el 10　以外
+ select * from student_mst sm
+ where sm.student_no != 10;
+
+menos el 10 igual que arriba
+select * from student_mst sm
+ where sm.student_no <> 10;
+
+学生NO（student_no）が〈2〉以上
+学生NO（student_no）が〈10〉未満
+select * from student_mst sm
+ where sm.student_no >= 2
+ and sm.student_no < 10;
+

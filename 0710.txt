@@ -1,0 +1,77 @@
+/*問１：テーブル作成
+テーブルレイアウトを参考に、「news_tbl」（学生マスタ）テーブルを作成するSQL 文を作成すること。
+※注意点：テーブル名は、下記のルールで命名すること。 （+はテーブル名に入れません）
+s+学籍番号+_+テーブル名 例）s24xxxxxx_news_tbl*/
+
+create table s24083010_news_tbl (
+seq_no int not null auto_increment,
+title_kj varchar(255) not null,
+article_kj text not null,
+delete_ku char(1) not null,
+insert_at datetime not null,
+update_at datetime not null,
+
+primary key (
+seq_no
+)
+);
+
+/*問２：レコード一括登録
+問１で作成したテーブル（自分が作成した）の１つにレコードを一括で登録すること。
+（自分が作成した）「s24xxxxxxx_news_tbl」（学科マスタ）」　←　news_tbl
+*/
+insert into s24083010_news_tbl 
+select * from news_tbl;
+
+/*問３：レコード登録
+問１で作成したテーブル（自分が作成した）「news_tbl」（学生マスタ）に下記の値で、データを登録すること。
+*/
+
+insert into s24083010_news_tbl 
+(
+    title_kj,
+    article_kj,
+    delete_ku,
+    insert_at,
+    update_at
+)
+values (
+    '「Microsoft Edge」は画像編集ツールである説',
+    '「Microsoft Edge」は、Microsoftという大メジャーが開発しているにもかかわらず、バージョンアップのたびに野心的な機能を追加してくる、おもしろWebブラウザーでもあります。窓の杜でも毎回新機能を採り上げていますが、知らない機能があったりするので要注意です。',
+    '0',
+    now(),
+    now()
+);
+
+/*問４：レコード登録
+問１で作成したテーブル（自分が作成した）「news_tbl」（学生マスタ）に任意のデータを登録すること。
+*/
+
+insert into s24083010_news_tbl 
+(
+    title_kj,
+    article_kj,
+    delete_ku,
+    insert_at,
+    update_at
+)
+values (
+    'Google LLC（グーグル）は、インターネット関連のサービスと製品に特化したアメリカ合衆国の企業 (LLC) である。',
+    'Googleは、1998年9月27日にラリー・ペイジとセルゲイ・フリンの2人によって設立されたアメリカ・カリフォルニア州マウンテンビューに本社を置く、世界最大手のIT企業の1つです。',
+    '0',
+    now(),
+    now()
+);
+
+/*問５：レコード削除
+問１で作成したテーブル（自分が作成した）「news_tbl」（学生マスタ）から下記の条件でデータを削除すること。
+
+条件：seq_noが1以上5以下のデータ*/
+
+delete from s24083010_news_tbl
+where seq_no >= 1
+and seq_no <= 5;
+
+/*問６：作成URL
+https://tsb.well-field.co.jp/tsb2024/20240710/　以降のURLを貼り付けること。
+*/
